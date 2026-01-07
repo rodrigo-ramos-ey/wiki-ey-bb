@@ -1,5 +1,5 @@
+
 site_name: Portal Tech – EY + BB
-site_url: https://rodrigo-ramos-ey.github.io/wiki-ey-bb/
 
 theme:
   name: material
@@ -11,7 +11,6 @@ theme:
   features:
     - navigation.tabs
     - navigation.sections
-    - navigation.instant
     - search.suggest
     - search.highlight
 
@@ -20,15 +19,12 @@ extra_css:
 
 nav:
   - Home: index.md
-
   - Portal:
       - Visão Geral: portal/index.md
-      - Sobre o Portal: portal/sobre/index.md
-      - Governança: portal/governanca/index.md
-      - Comunidades: portal/comunidades/index.md
-
+      - Governança: portal/governanca.md
+      - Sobre: portal/sobre.md
   - Comunidades:
-      - Engenharia de Software: comunidades/comunidades/engenharia/index.md
-      - Dados & Analytics: comunidades/comunidades/dados/index.md
-      - Cloud & DevOps: comunidades/comunidades/cloud/index.md
-      - Segurança: comunidades/comunidades/seguranca/index.md
+      - Engenharia de Software: comunidades/engenharia/index.md
+      - Dados & Analytics: comunidades/dados/index.md
+      - Cloud & DevOps: comunidades/cloud/index.md
+      - Segurança: comunidades/seguranca/index.md
