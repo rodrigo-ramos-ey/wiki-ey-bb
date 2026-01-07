@@ -1,3 +1,0 @@
-# Cloud & DevOps
-
-Comunidade Cloud.

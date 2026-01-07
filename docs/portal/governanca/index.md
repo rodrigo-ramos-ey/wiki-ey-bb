@@ -1,2 +1,0 @@
-## Governança
-Owner: Pilar Tech

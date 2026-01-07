@@ -1,3 +1,0 @@
-# Governança
-
-Modelo de governança.

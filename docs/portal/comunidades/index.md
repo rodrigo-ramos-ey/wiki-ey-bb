@@ -1,2 +1,0 @@
-## Comunidades
-Visão geral.

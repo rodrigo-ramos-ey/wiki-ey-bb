@@ -1,3 +1,0 @@
-# Segurança
-
-Comunidade de Segurança.
