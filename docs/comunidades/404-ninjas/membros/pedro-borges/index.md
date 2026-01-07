@@ -1,4 +1,4 @@
-﻿# pedro-borges
+﻿# Pedro Borges
 
 Comunidade: 404 Ninjas
 Papel: Lider
@@ -7,7 +7,7 @@ Papel: Lider
 Nao informado
 
 ## Status report
-Atuacao regular
+Responsavel pela lideranca da comunidade.
 
 ## Termometro de humor
 Verde

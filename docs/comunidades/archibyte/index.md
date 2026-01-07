@@ -7,4 +7,4 @@ Lider: Daniel Dantas
 Comunidade tecnica formada por profissionais da EY BB.
 
 ## Membros
-- [Daniel Dantas](membros/daniel-dantas/)
+- [Daniel Dantas](membros/daniel-dantas/) - Lider

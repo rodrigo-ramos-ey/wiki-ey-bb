@@ -7,4 +7,4 @@ Lider: Josue Alcantara
 Comunidade tecnica formada por profissionais da EY BB.
 
 ## Membros
-- [Josue Alcantara](membros/josue-alcantara/)
+- [Josue Alcantara](membros/josue-alcantara/) - Lider

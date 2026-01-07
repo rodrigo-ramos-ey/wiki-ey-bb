@@ -1,10 +1,11 @@
 ﻿# TryCatchers
 
 Especialidade: Tecnologia
-Lider: Thiago Favorino
+Lider: Luiza Abreu
 
 ## Sobre
 Comunidade tecnica formada por profissionais da EY BB.
 
 ## Membros
-- [Thiago Favorino](membros/thiago-favorino/)
+- [Luiza Abreu](membros/luiza-abreu/) - Lider
+- Thiago Favorino

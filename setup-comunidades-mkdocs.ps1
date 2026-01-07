@@ -3,15 +3,15 @@ Write-Host "Setup completo de comunidades - MkDocs"
 # Base
 $baseDocs = "docs/comunidades"
 
-# Definicao das comunidades
+# Definicao das comunidades (ALINHADAS AO PRINT)
 $comunidades = @(
-  @{ nome="TryCatchers"; pasta="trycatchers"; lider="Thiago Favorino"; liderPasta="thiago-favorino" },
+  @{ nome="TryCatchers"; pasta="trycatchers"; lider="Luiza Abreu"; liderPasta="luiza-abreu"; exLider="Thiago Favorino" },
   @{ nome="Capotamasnumbreca"; pasta="capotamasnumbreca"; lider="Fabio Rhormens"; liderPasta="fabio-rhormens" },
   @{ nome="MainFriends"; pasta="mainfriends"; lider="Mauro Napoli"; liderPasta="mauro-napoli" },
   @{ nome="CloudDevios"; pasta="clouddevios"; lider="Rodrigo Ramos"; liderPasta="rodrigo-ramos" },
   @{ nome="Technautas"; pasta="technautas"; lider="Mariany Santos"; liderPasta="mariany-santos" },
   @{ nome="Apollo DEVs"; pasta="apollodevs"; lider="Josue Alcantara"; liderPasta="josue-alcantara" },
-  @{ nome="404 Ninjas"; pasta="404-ninjas"; lider="pedro-borges"; liderPasta="pedro-borges" },
+  @{ nome="404 Ninjas"; pasta="404-ninjas"; lider="Pedro Borges"; liderPasta="pedro-borges" },
   @{ nome="R.I.P (REST in Peace)"; pasta="rip"; lider="Gabriel Serafim"; liderPasta="gabriel-serafim" },
   @{ nome="ArchiByte"; pasta="archibyte"; lider="Daniel Dantas"; liderPasta="daniel-dantas" }
 )
@@ -21,13 +21,13 @@ if (!(Test-Path $baseDocs)) {
   New-Item $baseDocs -ItemType Directory -Force | Out-Null
 }
 
-# -------------------------
-# INDEX GERAL
-# -------------------------
+# ======================================================
+# INDEX GERAL DE COMUNIDADES
+# ======================================================
 $index = @()
 $index += "# Comunidades"
 $index += ""
-$index += "Lista oficial das comunidades tecnicas."
+$index += "Lista oficial das comunidades tecnicas da EY BB."
 $index += ""
 $index += "## Tech"
 $index += ""
@@ -39,9 +39,9 @@ foreach ($c in $comunidades) {
 
 Set-Content -Path ($baseDocs + "/index.md") -Value $index -Encoding UTF8
 
-# -------------------------
-# COMUNIDADES E MEMBROS
-# -------------------------
+# ======================================================
+# PAGINAS DE COMUNIDADES E PERFIS
+# ======================================================
 foreach ($c in $comunidades) {
 
   $comBase = $baseDocs + "/" + $c.pasta
@@ -50,7 +50,7 @@ foreach ($c in $comunidades) {
 
   New-Item $liderBase -ItemType Directory -Force | Out-Null
 
-  # Comunidade
+  # ---------- Pagina da Comunidade ----------
   $conteudoComunidade = @()
   $conteudoComunidade += "# " + $c.nome
   $conteudoComunidade += ""
@@ -61,11 +61,15 @@ foreach ($c in $comunidades) {
   $conteudoComunidade += "Comunidade tecnica formada por profissionais da EY BB."
   $conteudoComunidade += ""
   $conteudoComunidade += "## Membros"
-  $conteudoComunidade += "- [" + $c.lider + "](membros/" + $c.liderPasta + "/)"
+  $conteudoComunidade += "- [" + $c.lider + "](membros/" + $c.liderPasta + "/) - Lider"
+
+  if ($c.ContainsKey("exLider")) {
+    $conteudoComunidade += "- " + $c.exLider
+  }
 
   Set-Content -Path ($comBase + "/index.md") -Value $conteudoComunidade -Encoding UTF8
 
-  # Perfil do lider
+  # ---------- Perfil do Lider ----------
   $conteudoLider = @()
   $conteudoLider += "# " + $c.lider
   $conteudoLider += ""
@@ -76,7 +80,7 @@ foreach ($c in $comunidades) {
   $conteudoLider += "Nao informado"
   $conteudoLider += ""
   $conteudoLider += "## Status report"
-  $conteudoLider += "Atuacao regular"
+  $conteudoLider += "Responsavel pela lideranca da comunidade."
   $conteudoLider += ""
   $conteudoLider += "## Termometro de humor"
   $conteudoLider += "Verde"
@@ -84,16 +88,16 @@ foreach ($c in $comunidades) {
   Set-Content -Path ($liderBase + "/index.md") -Value $conteudoLider -Encoding UTF8
 }
 
-# -------------------------
-# LIMPEZA BUILD
-# -------------------------
+# ======================================================
+# LIMPEZA DE BUILD ANTIGO
+# ======================================================
 if (Test-Path "site") {
   Remove-Item -Recurse -Force site
 }
 
-# -------------------------
+# ======================================================
 # DEPLOY
-# -------------------------
+# ======================================================
 Write-Host "Publicando no GitHub Pages..."
 mkdocs gh-deploy --clean
 

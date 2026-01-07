@@ -1,6 +1,6 @@
-﻿# Fabio Rhormens
+﻿# Luiza Abreu
 
-Comunidade: Capotamasnumbreca
+Comunidade: TryCatchers
 Papel: Lider
 
 ## OF atual

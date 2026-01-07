@@ -7,4 +7,4 @@ Lider: Gabriel Serafim
 Comunidade tecnica formada por profissionais da EY BB.
 
 ## Membros
-- [Gabriel Serafim](membros/gabriel-serafim/)
+- [Gabriel Serafim](membros/gabriel-serafim/) - Lider

@@ -7,4 +7,4 @@ Lider: Mauro Napoli
 Comunidade tecnica formada por profissionais da EY BB.
 
 ## Membros
-- [Mauro Napoli](membros/mauro-napoli/)
+- [Mauro Napoli](membros/mauro-napoli/) - Lider

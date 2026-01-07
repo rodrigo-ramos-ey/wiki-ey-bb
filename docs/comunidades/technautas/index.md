@@ -7,4 +7,4 @@ Lider: Mariany Santos
 Comunidade tecnica formada por profissionais da EY BB.
 
 ## Membros
-- [Mariany Santos](membros/mariany-santos/)
+- [Mariany Santos](membros/mariany-santos/) - Lider

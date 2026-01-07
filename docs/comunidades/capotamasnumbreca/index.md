@@ -7,4 +7,4 @@ Lider: Fabio Rhormens
 Comunidade tecnica formada por profissionais da EY BB.
 
 ## Membros
-- [Fabio Rhormens](membros/fabio-rhormens/)
+- [Fabio Rhormens](membros/fabio-rhormens/) - Lider
