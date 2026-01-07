@@ -1,13 +1,1 @@
-﻿# Daniel Dantas
-
-Comunidade: ArchiByte
-Papel: Lider
-
-## OF atual
-Nao informado
-
-## Status report
-Responsavel pela lideranca da comunidade.
-
-## Termometro de humor
-Verde
+﻿# Daniel Dantas  Comunidade: ArchiByte Papel: Lider  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde

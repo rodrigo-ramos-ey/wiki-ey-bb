@@ -44,34 +44,101 @@ $comunidades = @(
       @{nome="Vinicius Vieira"; papel="Membro"},
       @{nome="Yago Santos"; papel="Membro"}
     )
+  },
+  @{
+    nome="CloudDevios"; pasta="clouddevios";
+    membros=@(
+      @{nome="Rodrigo Ramos"; papel="Lider"},
+      @{nome="Fabio Rhormens"; papel="Membro"},
+      @{nome="Marcos Porfirio"; papel="Membro"},
+      @{nome="Mauro Napoli"; papel="Membro"},
+      @{nome="Roberto Souza"; papel="Membro"}
+    )
+  },
+  @{
+    nome="Apollo DEVs"; pasta="apollodevs";
+    membros=@(
+      @{nome="Josue Alcantara"; papel="Lider"},
+      @{nome="Joel Silva"; papel="Deploy"},
+      @{nome="Felipe Saraiva"; papel="Membro"},
+      @{nome="Luca Lacerda"; papel="Membro"},
+      @{nome="Jose Martinez"; papel="Membro"},
+      @{nome="Kevin Mailho"; papel="Membro"},
+      @{nome="Rychard Ryan"; papel="Membro"}
+    )
+  },
+  @{
+    nome="404 Ninjas"; pasta="404-ninjas";
+    membros=@(
+      @{nome="Pedro Borges"; papel="Lider"},
+      @{nome="Alan Lima"; papel="Vice-Lider"},
+      @{nome="Daniel Mesquita"; papel="Membro"},
+      @{nome="Eriani da Silva"; papel="Membro"},
+      @{nome="Luiza Sofal"; papel="Membro"},
+      @{nome="Marcos Fabio"; papel="Membro"},
+      @{nome="Mariane Rozeno"; papel="OF"},
+      @{nome="Rafael Goncalves"; papel="Membro"},
+      @{nome="Wesley Barbosa"; papel="Membro"}
+    )
+  },
+  @{
+    nome="R.I.P (REST in Peace)"; pasta="rip";
+    membros=@(
+      @{nome="Gabriel Serafim"; papel="Lider"},
+      @{nome="Ivens Oliveira"; papel="Membro"},
+      @{nome="Fabricio Barbosa"; papel="Membro"},
+      @{nome="Lucas Almeida"; papel="Membro"},
+      @{nome="Lucas Bueno"; papel="Membro"},
+      @{nome="Mikaela Pereira"; papel="Membro"},
+      @{nome="Magno Mendes"; papel="Membro"},
+      @{nome="Moises Araujo"; papel="Membro"},
+      @{nome="Lucas Gomes"; papel="Membro"}
+    )
+  },
+  @{
+    nome="ArchiByte"; pasta="archibyte";
+    membros=@(
+      @{nome="Daniel Dantas"; papel="Lider"},
+      @{nome="Alan Bruno de Melo Rosa"; papel="Membro"},
+      @{nome="Ciro Jose Velozo Ribeiro"; papel="Membro"},
+      @{nome="Gabriel Moreira da Silva"; papel="Membro"},
+      @{nome="Thaissa Lopes Moreira"; papel="Membro"},
+      @{nome="Romulo Belo"; papel="Membro"}
+    )
   }
 )
 
 # Garantir base
 New-Item $baseDocs -ItemType Directory -Force | Out-Null
 
+# ============================
 # INDEX GERAL
+# ============================
 $index = @("# Comunidades","","## Tech","")
 foreach ($c in $comunidades) {
-  $lider = ($c.membros | Where-Object {$_.papel -eq "Lider"}).nome
+  $lider = ($c.membros | Where-Object { $_.papel -eq "Lider" }).nome
   $index += "- [" + $c.nome + "](" + $c.pasta + "/) - " + $lider
 }
 Set-Content ($baseDocs + "/index.md") $index -Encoding UTF8
 
+# ============================
 # COMUNIDADES E MEMBROS
+# ============================
 foreach ($c in $comunidades) {
 
   $comBase = $baseDocs + "/" + $c.pasta
   $membrosBase = $comBase + "/membros"
   New-Item $membrosBase -ItemType Directory -Force | Out-Null
 
-  # Pagina da comunidade
   $conteudo = @("# " + $c.nome,"","## Membros","")
+
   foreach ($m in $c.membros) {
-    $slug = $m.nome.ToLower().Replace(" ","-")
+
+    $slug = $m.nome.ToLower()
+    $slug = $slug.Replace(" ","-")
+
     $conteudo += "- [" + $m.nome + "](membros/" + $slug + "/) - " + $m.papel
 
-    # Perfil do membro
     $perfilPath = $membrosBase + "/" + $slug
     New-Item $perfilPath -ItemType Directory -Force | Out-Null
 
@@ -97,12 +164,16 @@ foreach ($c in $comunidades) {
   Set-Content ($comBase + "/index.md") $conteudo -Encoding UTF8
 }
 
-# Limpeza build
+# ============================
+# LIMPEZA BUILD
+# ============================
 if (Test-Path "site") {
   Remove-Item -Recurse -Force site
 }
 
-# Deploy
+# ============================
+# DEPLOY
+# ============================
 mkdocs gh-deploy --clean
 
 Write-Host "Setup finalizado com sucesso"
