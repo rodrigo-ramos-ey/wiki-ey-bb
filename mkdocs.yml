@@ -1,0 +1,24 @@
+site_name: Wiki Corporativa EY + BB
+site_description: Repositório oficial de conhecimento corporativo
+theme:
+  name: material
+  language: pt
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - search.suggest
+    - search.highlight
+nav:
+  - Home: index.md
+  - Comunidades:
+      - Arquitetura: comunidades/arquitetura.md
+      - Desenvolvimento: comunidades/desenvolvimento.md
+      - Segurança: comunidades/seguranca.md
+      - Governança: comunidades/governanca.md
+      - Compliance: comunidades/compliance.md
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+plugins:
+  - search
