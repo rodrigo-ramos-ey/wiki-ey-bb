@@ -1,0 +1,50 @@
+site_name: Wiki EY-BB
+site_description: Portal de Comunidades e Documentação EY
+site_author: Rodrigo Ramos
+
+repo_name: rodrigo-ramos-ey/wiki-ey-bb
+repo_url: https://github.com/rodrigo-ramos-ey/wiki-ey-bb
+
+theme:
+  name: material
+  language: pt
+  palette:
+    scheme: slate
+    primary: yellow
+    accent: yellow
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - content.code.copy
+
+docs_dir: docs
+
+nav:
+  - Home: index.md
+
+  - Comunidades:
+      - Visão Geral: comunidades/index.md
+      - Cloud & DevOps: comunidades/cloud/index.md
+
+  - Onboarding:
+      - Introdução: onboarding/index.md
+
+  - OF:
+      - Entrega de OF: of/index.md
+
+  - Ambiente BB:
+      - Geral: ambiente/index.md
+
+markdown_extensions:
+  - admonition
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.superfences
+  - pymdownx.highlight
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/rodrigo-ramos-ey
