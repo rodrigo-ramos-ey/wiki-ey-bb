@@ -1,87 +1,67 @@
-Write-Host "INICIANDO CORRECAO TOTAL DO PORTAL TECH"
+Write-Host "CORRECAO FINAL DA ESTRUTURA DO PORTAL TECH"
 
-# Verifica raiz
 if (!(Test-Path "mkdocs.yml")) {
-    Write-Error "mkdocs.yml nao encontrado. Execute na raiz do projeto."
+    Write-Error "Execute este script na raiz do projeto"
     exit 1
 }
 
 # ============================
-# 1. CRIA ESTRUTURA CORRETA
+# 1. GARANTE ESTRUTURA FINAL
 # ============================
-Write-Host "Criando estrutura padrao..."
+Write-Host "Garantindo estrutura correta..."
 
 New-Item -ItemType Directory -Force -Path docs\assets\stylesheets | Out-Null
-New-Item -ItemType Directory -Force -Path docs\portal\sobre | Out-Null
-New-Item -ItemType Directory -Force -Path docs\portal\governanca | Out-Null
 New-Item -ItemType Directory -Force -Path docs\portal\comunidades | Out-Null
-New-Item -ItemType Directory -Force -Path docs\comunidades\engenharia | Out-Null
-New-Item -ItemType Directory -Force -Path docs\comunidades\dados | Out-Null
-New-Item -ItemType Directory -Force -Path docs\comunidades\cloud | Out-Null
-New-Item -ItemType Directory -Force -Path docs\comunidades\seguranca | Out-Null
+New-Item -ItemType Directory -Force -Path docs\portal\governanca | Out-Null
+New-Item -ItemType Directory -Force -Path docs\portal\sobre | Out-Null
+New-Item -ItemType Directory -Force -Path docs\comunidades | Out-Null
 
 # ============================
-# 2. MOVE CSS PARA LOCAL CORRETO
+# 2. MOVE COMUNIDADES DUPLICADAS
 # ============================
-Write-Host "Movendo CSS..."
+Write-Host "Corrigindo duplicacao de comunidades..."
 
-if (Test-Path "docs\comunidades\assets\stylesheets\ey-tech.css") {
-    Move-Item -Force `
-        docs\comunidades\assets\stylesheets\ey-tech.css `
-        docs\assets\stylesheets\ey-tech.css
-}
+$origem = "docs\comunidades\comunidades"
 
-if (Test-Path "docs\comunidades\assets") {
-    Remove-Item -Recurse -Force docs\comunidades\assets
-}
-
-# ============================
-# 3. MOVE PORTAL PARA RAIZ
-# ============================
-Write-Host "Corrigindo portal..."
-
-if (Test-Path "docs\comunidades\portal") {
-    Move-Item -Force docs\comunidades\portal docs\portal_temp
-}
-
-if (Test-Path "docs\portal_temp\sobre.md") {
-    Move-Item -Force docs\portal_temp\sobre.md docs\portal\sobre\index.md
-}
-if (Test-Path "docs\portal_temp\governanca.md") {
-    Move-Item -Force docs\portal_temp\governanca.md docs\portal\governanca\index.md
-}
-if (Test-Path "docs\portal_temp\comunidades.md") {
-    Move-Item -Force docs\portal_temp\comunidades.md docs\portal\comunidades\index.md
-}
-
-if (Test-Path "docs\portal_temp") {
-    Remove-Item -Recurse -Force docs\portal_temp
+if (Test-Path $origem) {
+    Get-ChildItem $origem -Directory | ForEach-Object {
+        $destino = "docs\comunidades\$($_.Name)"
+        if (!(Test-Path $destino)) {
+            Move-Item $_.FullName $destino
+        }
+    }
+    Remove-Item -Recurse -Force $origem
 }
 
 # ============================
-# 4. REMOVE ARQUIVOS SOLTOS
+# 3. REMOVE PASTAS VAZIAS
 # ============================
-Write-Host "Removendo arquivos soltos..."
+Write-Host "Removendo pastas vazias..."
 
-$arquivosSoltos = @(
-    "arquitetura.md",
-    "compliance.md",
-    "governanca.md",
-    "desenvolvimento.md",
-    "seguranca.md"
-)
-
-foreach ($arquivo in $arquivosSoltos) {
-    $path = "docs\comunidades\$arquivo"
-    if (Test-Path $path) {
-        Remove-Item -Force $path
+Get-ChildItem docs\comunidades -Directory | ForEach-Object {
+    if ((Get-ChildItem $_.FullName -Recurse | Measure-Object).Count -eq 0) {
+        Remove-Item -Recurse -Force $_.FullName
     }
 }
 
 # ============================
-# 5. LIMPA BUILD
+# 4. GARANTE INDEX NAS COMUNIDADES
 # ============================
-Write-Host "Limpando build..."
+Write-Host "Validando index.md..."
+
+$comunidades = @("cloud","dados","engenharia","seguranca")
+
+foreach ($c in $comunidades) {
+    $path = "docs\comunidades\$c\index.md"
+    if (!(Test-Path $path)) {
+        New-Item -ItemType File -Path $path | Out-Null
+    }
+}
+
+# ============================
+# 5. LIMPA BUILD E DEPLOY
+# ============================
+Write-Host "Limpando build e publicando..."
 
 if (Test-Path "site") {
     Remove-Item -Recurse -Force site
@@ -89,16 +69,11 @@ if (Test-Path "site") {
 
 mkdocs build --clean
 
-# ============================
-# 6. COMMIT E DEPLOY
-# ============================
-Write-Host "Commitando e publicando..."
-
 git add .
-git commit -m "Correcao estrutural total do Portal Tech" --allow-empty
+git commit -m "Limpeza definitiva da estrutura de comunidades" --allow-empty
 git push origin main
 
 mkdocs gh-deploy --clean
 
-Write-Host "CORRECAO FINALIZADA COM SUCESSO"
-Write-Host "Acesse: https://rodrigo-ramos-ey.github.io/wiki-ey-bb/"
+Write-Host "ESTRUTURA FINAL CORRIGIDA COM SUCESSO"
+Write-Host "URL: https://rodrigo-ramos-ey.github.io/wiki-ey-bb/"
