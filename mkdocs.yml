@@ -1,5 +1,5 @@
-site_name: Wiki Corporativa EY + BB
-site_description: Repositório oficial de conhecimento corporativo
+
+site_name: Portal Tech – EY + BB
 theme:
   name: material
   language: pt
@@ -8,17 +8,16 @@ theme:
     - navigation.sections
     - search.suggest
     - search.highlight
+extra_css:
+  - assets/stylesheets/ey-tech.css
 nav:
   - Home: index.md
+  - Portal:
+      - Sobre o Portal: portal/sobre.md
+      - Governança: portal/governanca.md
+      - Comunidades: portal/comunidades.md
   - Comunidades:
-      - Arquitetura: comunidades/arquitetura.md
-      - Desenvolvimento: comunidades/desenvolvimento.md
-      - Segurança: comunidades/seguranca.md
-      - Governança: comunidades/governanca.md
-      - Compliance: comunidades/compliance.md
-markdown_extensions:
-  - admonition
-  - toc:
-      permalink: true
-plugins:
-  - search
+      - Engenharia de Software: comunidades/engenharia/index.md
+      - Dados & Analytics: comunidades/dados/index.md
+      - Cloud & DevOps: comunidades/cloud/index.md
+      - Segurança: comunidades/seguranca/index.md
