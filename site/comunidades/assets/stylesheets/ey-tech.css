@@ -1,0 +1,7 @@
+:root {
+  --md-primary-fg-color: #000000;          /* preto EY */
+  --md-primary-fg-color--dark: #000000;
+  --md-primary-fg-color--light: #1a1a1a;
+
+  --md-accent-fg-color: #ffe600;           /* amarelo EY */
+}
