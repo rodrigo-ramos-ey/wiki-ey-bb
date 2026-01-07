@@ -13,6 +13,7 @@ extra_css:
 nav:
   - Home: index.md
   - Portal:
+      - Visão Geral: portal/index.md
       - Sobre o Portal: portal/sobre.md
       - Governança: portal/governanca.md
       - Comunidades: portal/comunidades.md
