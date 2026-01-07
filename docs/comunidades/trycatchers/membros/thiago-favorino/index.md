@@ -1,13 +1,1 @@
-﻿# Thiago Favorino
-
-Comunidade: TryCatchers
-Papel: Lider
-
-## OF atual
-Nao informado
-
-## Status report
-Atuacao regular
-
-## Termometro de humor
-Verde
+﻿# Thiago Favorino  Comunidade: TryCatchers Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde

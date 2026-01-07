@@ -1,104 +1,108 @@
 Write-Host "Setup completo de comunidades - MkDocs"
 
-# Base
 $baseDocs = "docs/comunidades"
 
-# Definicao das comunidades (ALINHADAS AO PRINT)
 $comunidades = @(
-  @{ nome="TryCatchers"; pasta="trycatchers"; lider="Luiza Abreu"; liderPasta="luiza-abreu"; exLider="Thiago Favorino" },
-  @{ nome="Capotamasnumbreca"; pasta="capotamasnumbreca"; lider="Fabio Rhormens"; liderPasta="fabio-rhormens" },
-  @{ nome="MainFriends"; pasta="mainfriends"; lider="Mauro Napoli"; liderPasta="mauro-napoli" },
-  @{ nome="CloudDevios"; pasta="clouddevios"; lider="Rodrigo Ramos"; liderPasta="rodrigo-ramos" },
-  @{ nome="Technautas"; pasta="technautas"; lider="Mariany Santos"; liderPasta="mariany-santos" },
-  @{ nome="Apollo DEVs"; pasta="apollodevs"; lider="Josue Alcantara"; liderPasta="josue-alcantara" },
-  @{ nome="404 Ninjas"; pasta="404-ninjas"; lider="Pedro Borges"; liderPasta="pedro-borges" },
-  @{ nome="R.I.P (REST in Peace)"; pasta="rip"; lider="Gabriel Serafim"; liderPasta="gabriel-serafim" },
-  @{ nome="ArchiByte"; pasta="archibyte"; lider="Daniel Dantas"; liderPasta="daniel-dantas" }
+  @{
+    nome="TryCatchers"; pasta="trycatchers";
+    membros=@(
+      @{nome="Luiza Abreu"; papel="Lider"},
+      @{nome="Thiago Favorino"; papel="Membro"},
+      @{nome="Alan Barbosa"; papel="Membro"},
+      @{nome="Felipe Silveira"; papel="Membro"},
+      @{nome="Guilherme Oliveira"; papel="Membro"},
+      @{nome="Luiz Octavio Horta"; papel="Membro"},
+      @{nome="Tairone Gomes"; papel="Deploy"},
+      @{nome="Thais Guedes"; papel="OF"}
+    )
+  },
+  @{
+    nome="MainFriends"; pasta="mainfriends";
+    membros=@(
+      @{nome="Mauro Napoli"; papel="Lider"},
+      @{nome="Alessandro Miranda"; papel="Deploy"},
+      @{nome="Arthur Letissio"; papel="Membro"},
+      @{nome="Bruna Bertolotto"; papel="Membro"},
+      @{nome="Bernardo Sousa"; papel="Membro"},
+      @{nome="Dalvolinda da Silva"; papel="Membro"},
+      @{nome="Daniel Dantas"; papel="OF"},
+      @{nome="Karoline Gomes"; papel="Membro"},
+      @{nome="Mayara Serra"; papel="Vice-Lider / Timesheet"},
+      @{nome="Rodrigo Ramos"; papel="Membro"}
+    )
+  },
+  @{
+    nome="Technautas"; pasta="technautas";
+    membros=@(
+      @{nome="Mariany Santos"; papel="Lider"},
+      @{nome="Antonio Melo"; papel="Membro"},
+      @{nome="Fabricio Lemos"; papel="Deploy"},
+      @{nome="Karolina Trindade"; papel="Timesheet"},
+      @{nome="Maria Melo"; papel="Membro"},
+      @{nome="Rodrigo Santos"; papel="Membro"},
+      @{nome="Vitor Matheus"; papel="OF"},
+      @{nome="Vinicius Vieira"; papel="Membro"},
+      @{nome="Yago Santos"; papel="Membro"}
+    )
+  }
 )
 
-# Criar base
-if (!(Test-Path $baseDocs)) {
-  New-Item $baseDocs -ItemType Directory -Force | Out-Null
-}
+# Garantir base
+New-Item $baseDocs -ItemType Directory -Force | Out-Null
 
-# ======================================================
-# INDEX GERAL DE COMUNIDADES
-# ======================================================
-$index = @()
-$index += "# Comunidades"
-$index += ""
-$index += "Lista oficial das comunidades tecnicas da EY BB."
-$index += ""
-$index += "## Tech"
-$index += ""
-
+# INDEX GERAL
+$index = @("# Comunidades","","## Tech","")
 foreach ($c in $comunidades) {
-  $linha = "- [" + $c.nome + "](" + $c.pasta + "/) - " + $c.lider
-  $index += $linha
+  $lider = ($c.membros | Where-Object {$_.papel -eq "Lider"}).nome
+  $index += "- [" + $c.nome + "](" + $c.pasta + "/) - " + $lider
 }
+Set-Content ($baseDocs + "/index.md") $index -Encoding UTF8
 
-Set-Content -Path ($baseDocs + "/index.md") -Value $index -Encoding UTF8
-
-# ======================================================
-# PAGINAS DE COMUNIDADES E PERFIS
-# ======================================================
+# COMUNIDADES E MEMBROS
 foreach ($c in $comunidades) {
 
   $comBase = $baseDocs + "/" + $c.pasta
   $membrosBase = $comBase + "/membros"
-  $liderBase = $membrosBase + "/" + $c.liderPasta
+  New-Item $membrosBase -ItemType Directory -Force | Out-Null
 
-  New-Item $liderBase -ItemType Directory -Force | Out-Null
+  # Pagina da comunidade
+  $conteudo = @("# " + $c.nome,"","## Membros","")
+  foreach ($m in $c.membros) {
+    $slug = $m.nome.ToLower().Replace(" ","-")
+    $conteudo += "- [" + $m.nome + "](membros/" + $slug + "/) - " + $m.papel
 
-  # ---------- Pagina da Comunidade ----------
-  $conteudoComunidade = @()
-  $conteudoComunidade += "# " + $c.nome
-  $conteudoComunidade += ""
-  $conteudoComunidade += "Especialidade: Tecnologia"
-  $conteudoComunidade += "Lider: " + $c.lider
-  $conteudoComunidade += ""
-  $conteudoComunidade += "## Sobre"
-  $conteudoComunidade += "Comunidade tecnica formada por profissionais da EY BB."
-  $conteudoComunidade += ""
-  $conteudoComunidade += "## Membros"
-  $conteudoComunidade += "- [" + $c.lider + "](membros/" + $c.liderPasta + "/) - Lider"
+    # Perfil do membro
+    $perfilPath = $membrosBase + "/" + $slug
+    New-Item $perfilPath -ItemType Directory -Force | Out-Null
 
-  if ($c.ContainsKey("exLider")) {
-    $conteudoComunidade += "- " + $c.exLider
+    $perfil = @(
+      "# " + $m.nome,
+      "",
+      "Comunidade: " + $c.nome,
+      "Papel: " + $m.papel,
+      "",
+      "## OF atual",
+      "Nao informado",
+      "",
+      "## Status report",
+      "Em andamento",
+      "",
+      "## Termometro de humor",
+      "Verde"
+    )
+
+    Set-Content ($perfilPath + "/index.md") $perfil -Encoding UTF8
   }
 
-  Set-Content -Path ($comBase + "/index.md") -Value $conteudoComunidade -Encoding UTF8
-
-  # ---------- Perfil do Lider ----------
-  $conteudoLider = @()
-  $conteudoLider += "# " + $c.lider
-  $conteudoLider += ""
-  $conteudoLider += "Comunidade: " + $c.nome
-  $conteudoLider += "Papel: Lider"
-  $conteudoLider += ""
-  $conteudoLider += "## OF atual"
-  $conteudoLider += "Nao informado"
-  $conteudoLider += ""
-  $conteudoLider += "## Status report"
-  $conteudoLider += "Responsavel pela lideranca da comunidade."
-  $conteudoLider += ""
-  $conteudoLider += "## Termometro de humor"
-  $conteudoLider += "Verde"
-
-  Set-Content -Path ($liderBase + "/index.md") -Value $conteudoLider -Encoding UTF8
+  Set-Content ($comBase + "/index.md") $conteudo -Encoding UTF8
 }
 
-# ======================================================
-# LIMPEZA DE BUILD ANTIGO
-# ======================================================
+# Limpeza build
 if (Test-Path "site") {
   Remove-Item -Recurse -Force site
 }
 
-# ======================================================
-# DEPLOY
-# ======================================================
-Write-Host "Publicando no GitHub Pages..."
+# Deploy
 mkdocs gh-deploy --clean
 
 Write-Host "Setup finalizado com sucesso"
