@@ -1,20 +1,17 @@
 site_name: Portal Tech – EY + BB
-
-site_description: Portal corporativo do Pilar Tech – comunidades, governança e conhecimento técnico
-site_author: EY + BB – Pilar Tech
+site_url: https://rodrigo-ramos-ey.github.io/wiki-ey-bb/
 
 theme:
   name: material
   language: pt
-
   palette:
-    scheme: default
-
+    scheme: slate
+    primary: black
+    accent: yellow
   features:
     - navigation.tabs
     - navigation.sections
     - navigation.instant
-    - navigation.top
     - search.suggest
     - search.highlight
 
@@ -31,22 +28,7 @@ nav:
       - Comunidades: portal/comunidades/index.md
 
   - Comunidades:
-      - Engenharia de Software: comunidades/engenharia/index.md
-      - Dados & Analytics: comunidades/dados/index.md
-      - Cloud & DevOps: comunidades/cloud/index.md
-      - Segurança: comunidades/seguranca/index.md
-
-markdown_extensions:
-  - admonition
-  - toc:
-      permalink: true
-  - tables
-  - footnotes
-  - attr_list
-  - md_in_html
-
-plugins:
-  - search
-
-copyright: >
-  © 2026 EY + BB — Pilar Tech. Uso interno corporativo.
+      - Engenharia de Software: comunidades/comunidades/engenharia/index.md
+      - Dados & Analytics: comunidades/comunidades/dados/index.md
+      - Cloud & DevOps: comunidades/comunidades/cloud/index.md
+      - Segurança: comunidades/comunidades/seguranca/index.md
