@@ -1,1 +1,5 @@
-[{"nome":"Claudevios","lider":"Rodrigo Ramos"}]
+
+[
+  { "nome": "Claudevios", "lider": "Rodrigo Ramos" },
+  { "nome": "Cloud & DevOps", "lider": "Comunidade Técnica" }
+]
