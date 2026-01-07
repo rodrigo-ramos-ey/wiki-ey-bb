@@ -1,1 +1,1 @@
-# Cloud & DevOps
+# Cloud
