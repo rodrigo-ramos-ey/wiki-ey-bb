@@ -1,22 +1,27 @@
-
 site_name: Portal Tech – EY + BB
+
 theme:
   name: material
   language: pt
   features:
     - navigation.tabs
     - navigation.sections
+    - navigation.instant
     - search.suggest
     - search.highlight
+
 extra_css:
   - assets/stylesheets/ey-tech.css
+
 nav:
   - Home: index.md
+
   - Portal:
       - Visão Geral: portal/index.md
-      - Sobre o Portal: portal/sobre.md
-      - Governança: portal/governanca.md
-      - Comunidades: portal/comunidades.md
+      - Sobre o Portal: portal/sobre/index.md
+      - Governança: portal/governanca/index.md
+      - Comunidades: portal/comunidades/index.md
+
   - Comunidades:
       - Engenharia de Software: comunidades/engenharia/index.md
       - Dados & Analytics: comunidades/dados/index.md
