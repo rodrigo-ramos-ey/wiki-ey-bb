@@ -1,12 +1,20 @@
 site_name: Portal Tech – EY + BB
 
+site_description: Portal corporativo do Pilar Tech – comunidades, governança e conhecimento técnico
+site_author: EY + BB – Pilar Tech
+
 theme:
   name: material
   language: pt
+
+  palette:
+    scheme: default
+
   features:
     - navigation.tabs
     - navigation.sections
     - navigation.instant
+    - navigation.top
     - search.suggest
     - search.highlight
 
@@ -27,3 +35,18 @@ nav:
       - Dados & Analytics: comunidades/dados/index.md
       - Cloud & DevOps: comunidades/cloud/index.md
       - Segurança: comunidades/seguranca/index.md
+
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+  - tables
+  - footnotes
+  - attr_list
+  - md_in_html
+
+plugins:
+  - search
+
+copyright: >
+  © 2026 EY + BB — Pilar Tech. Uso interno corporativo.
