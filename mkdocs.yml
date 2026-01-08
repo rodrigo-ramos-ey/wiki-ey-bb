@@ -1,13 +1,22 @@
 ﻿site_name: Wiki EY-BB
+site_url: https://rodrigo-ramos-ey.github.io/wiki-ey-bb/
+
 docs_dir: docs
 site_dir: site
 
 theme:
   name: material
-
+  palette:
+    - scheme: slate
+      primary: black
+      accent: yellow
+  font:
+    text: Roboto
+    code: Roboto Mono
 nav:
   - Home: index.md
   - Comunidades: comunidades/index.md
 
 extra_css:
   - stylesheets/social.css
+  - stylesheets/ey-theme.css
