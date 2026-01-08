@@ -1,0 +1,32 @@
+﻿.profile-card {
+  max-width: 720px;
+  margin: auto;
+  padding: 24px;
+  background: #1e1f26;
+  border-radius: 12px;
+}
+.profile-avatar {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  margin: auto;
+  border: 4px solid #f7c600;
+}
+.profile-name {
+  text-align: center;
+  font-size: 2rem;
+  margin-top: 16px;
+  color: #ffffff;
+}
+.profile-section {
+  margin-top: 24px;
+}
+.profile-section h2 {
+  color: #f7c600;
+  font-size: 1.2rem;
+}
+.humor-green { color: #2ecc71; font-weight: bold; }
+.humor-yellow { color: #f1c40f; font-weight: bold; }
+.humor-red { color: #e74c3c; font-weight: bold; }
