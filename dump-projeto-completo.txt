@@ -1,0 +1,1509 @@
+=== DUMP COMPLETO DO PROJETO ===
+Gerado em: 01/08/2026 09:00:08
+
+RAIZ: C:\Users\BM859YM\OneDrive - EY\Apps\wiki-ey-bb
+
+----------------------------------------
+
+
+[DIRETORIO] data
+
+
+[DIRETORIO] docs
+
+
+[ARQUIVO] corrigir-mkdocs.ps1
+----------------------------------------
+Write-Host "Iniciando correcao MkDocs..."
+
+# 1. Remover site/
+if (Test-Path "site") {
+    Write-Host "Removendo site/"
+    Remove-Item -Recurse -Force site
+}
+
+# 2. Garantir .gitignore
+if (!(Test-Path ".gitignore")) {
+    New-Item ".gitignore" -ItemType File | Out-Null
+}
+
+$gitignore = Get-Content ".gitignore" -ErrorAction SilentlyContinue
+if ($gitignore -notcontains "site/") {
+    Add-Content ".gitignore" "site/"
+}
+
+# 3. Garantir docs/comunidades
+if (!(Test-Path "docs/comunidades")) {
+    New-Item "docs/comunidades" -ItemType Directory -Force | Out-Null
+}
+
+# 4. Ler JSON
+$jsonPath = "data/comunidades.json"
+if (!(Test-Path $jsonPath)) {
+    Write-Error "Arquivo data/comunidades.json nao encontrado"
+    exit 1
+}
+
+$comunidades = Get-Content $jsonPath -Raw | ConvertFrom-Json
+
+# 5. Gerar Markdown
+$md = @()
+$md += "# Comunidades"
+$md += ""
+$md += "Lista oficial de comunidades tecnicas."
+$md += ""
+
+$grupos = $comunidades | Group-Object area
+
+foreach ($grupo in $grupos) {
+    $md += "## " + $grupo.Name
+    $md += ""
+
+    foreach ($c in $grupo.Group) {
+        $linha = "- **" + $c.nome + "** - " + $c.lider
+        $md += $linha
+    }
+
+    $md += ""
+}
+
+Set-Content -Path "docs/comunidades/index.md" -Value $md -Encoding UTF8
+
+# 6. Build MkDocs
+Write-Host "Executando mkdocs build --clean"
+mkdocs build --clean
+
+# 7. Commit
+git add .
+git commit -m "Corrige MkDocs e publica comunidades"
+
+Write-Host "Finalizado. Execute git push."
+
+
+----------------------------------------
+
+[ARQUIVO] dump-projeto-completo.txt
+----------------------------------------
+=== DUMP COMPLETO DO PROJETO ===
+Gerado em: 01/08/2026 09:00:08
+
+RAIZ: C:\Users\BM859YM\OneDrive - EY\Apps\wiki-ey-bb
+
+----------------------------------------
+
+
+[DIRETORIO] data
+
+
+[DIRETORIO] docs
+
+
+[ARQUIVO] corrigir-mkdocs.ps1
+----------------------------------------
+Write-Host "Iniciando correcao MkDocs..."
+
+# 1. Remover site/
+if (Test-Path "site") {
+    Write-Host "Removendo site/"
+    Remove-Item -Recurse -Force site
+}
+
+# 2. Garantir .gitignore
+if (!(Test-Path ".gitignore")) {
+    New-Item ".gitignore" -ItemType File | Out-Null
+}
+
+$gitignore = Get-Content ".gitignore" -ErrorAction SilentlyContinue
+if ($gitignore -notcontains "site/") {
+    Add-Content ".gitignore" "site/"
+}
+
+# 3. Garantir docs/comunidades
+if (!(Test-Path "docs/comunidades")) {
+    New-Item "docs/comunidades" -ItemType Directory -Force | Out-Null
+}
+
+# 4. Ler JSON
+$jsonPath = "data/comunidades.json"
+if (!(Test-Path $jsonPath)) {
+    Write-Error "Arquivo data/comunidades.json nao encontrado"
+    exit 1
+}
+
+$comunidades = Get-Content $jsonPath -Raw | ConvertFrom-Json
+
+# 5. Gerar Markdown
+$md = @()
+$md += "# Comunidades"
+$md += ""
+$md += "Lista oficial de comunidades tecnicas."
+$md += ""
+
+$grupos = $comunidades | Group-Object area
+
+foreach ($grupo in $grupos) {
+    $md += "## " + $grupo.Name
+    $md += ""
+
+    foreach ($c in $grupo.Group) {
+        $linha = "- **" + $c.nome + "** - " + $c.lider
+        $md += $linha
+    }
+
+    $md += ""
+}
+
+Set-Content -Path "docs/comunidades/index.md" -Value $md -Encoding UTF8
+
+# 6. Build MkDocs
+Write-Host "Executando mkdocs build --clean"
+mkdocs build --clean
+
+# 7. Commit
+git add .
+git commit -m "Corrige MkDocs e publica comunidades"
+
+Write-Host "Finalizado. Execute git push."
+
+
+----------------------------------------
+
+[ARQUIVO] dump-projeto-completo.txt
+----------------------------------------
+
+
+----------------------------------------
+
+[ARQUIVO] estrutura-atual.txt
+----------------------------------------
+Listagem de caminhos de pasta para o volume OS
+O n·mero de sÚrie do volume Ú 46CB-891C
+C:.
+ª   .gitignore
+ª   comunidades.html
+ª   corrigir-mkdocs.ps1
+ª   estrutura-atual.txt
+ª   index.html
+ª   login.html
+ª   mkdocs.yml
+ª   
++---assets
+ª   +---js
+ª           comunidades.js
+ª           
++---data
+ª       comunidades.json
+ª       
++---docs
+ª   ª   index.md
+ª   ª   
+ª   +---ambiente
+ª   ª       index.md
+ª   ª       
+ª   +---comunidades
+ª   ª   ª   index.md
+ª   ª   ª   
+ª   ª   +---cloud
+ª   ª           index.md
+ª   ª           
+ª   +---of
+ª   ª       index.md
+ª   ª       
+ª   +---onboarding
+ª           index.md
+ª           
++---site
+    ª   404.html
+    ª   index.html
+    ª   sitemap.xml
+    ª   sitemap.xml.gz
+    ª   
+    +---ambiente
+    ª       index.html
+    ª       
+    +---assets
+    ª   +---images
+    ª   ª       favicon.png
+    ª   ª       
+    ª   +---javascripts
+    ª   ª   ª   bundle.79ae519e.min.js
+    ª   ª   ª   bundle.79ae519e.min.js.map
+    ª   ª   ª   
+    ª   ª   +---lunr
+    ª   ª   ª   ª   tinyseg.js
+    ª   ª   ª   ª   wordcut.js
+    ª   ª   ª   ª   
+    ª   ª   ª   +---min
+    ª   ª   ª           lunr.ar.min.js
+    ª   ª   ª           lunr.da.min.js
+    ª   ª   ª           lunr.de.min.js
+    ª   ª   ª           lunr.du.min.js
+    ª   ª   ª           lunr.el.min.js
+    ª   ª   ª           lunr.es.min.js
+    ª   ª   ª           lunr.fi.min.js
+    ª   ª   ª           lunr.fr.min.js
+    ª   ª   ª           lunr.he.min.js
+    ª   ª   ª           lunr.hi.min.js
+    ª   ª   ª           lunr.hu.min.js
+    ª   ª   ª           lunr.hy.min.js
+    ª   ª   ª           lunr.it.min.js
+    ª   ª   ª           lunr.ja.min.js
+    ª   ª   ª           lunr.jp.min.js
+    ª   ª   ª           lunr.kn.min.js
+    ª   ª   ª           lunr.ko.min.js
+    ª   ª   ª           lunr.multi.min.js
+    ª   ª   ª           lunr.nl.min.js
+    ª   ª   ª           lunr.no.min.js
+    ª   ª   ª           lunr.pt.min.js
+    ª   ª   ª           lunr.ro.min.js
+    ª   ª   ª           lunr.ru.min.js
+    ª   ª   ª           lunr.sa.min.js
+    ª   ª   ª           lunr.stemmer.support.min.js
+    ª   ª   ª           lunr.sv.min.js
+    ª   ª   ª           lunr.ta.min.js
+    ª   ª   ª           lunr.te.min.js
+    ª   ª   ª           lunr.th.min.js
+    ª   ª   ª           lunr.tr.min.js
+    ª   ª   ª           lunr.vi.min.js
+    ª   ª   ª           lunr.zh.min.js
+    ª   ª   ª           
+    ª   ª   +---workers
+    ª   ª           search.2c215733.min.js
+    ª   ª           search.2c215733.min.js.map
+    ª   ª           
+    ª   +---stylesheets
+    ª           main.484c7ddc.min.css
+    ª           main.484c7ddc.min.css.map
+    ª           palette.ab4e12ef.min.css
+    ª           palette.ab4e12ef.min.css.map
+    ª           
+    +---comunidades
+    ª   ª   index.html
+    ª   ª   
+    ª   +---cloud
+    ª           index.html
+    ª           
+    +---of
+    ª       index.html
+    ª       
+    +---onboarding
+    ª       index.html
+    ª       
+    +---search
+            search_index.json
+            
+
+
+----------------------------------------
+
+[ARQUIVO] extrair-projeto-completo.ps1
+----------------------------------------
+# ==============================
+# EXTRAIR ESTRUTURA + CONTEUDO DO PROJETO
+# ==============================
+
+$root = Get-Location
+$output = "dump-projeto-completo.txt"
+
+# Pastas a ignorar
+$ignoreDirs = @(".git", "site", "node_modules", "__pycache__")
+
+# Limpa arquivo anterior
+if (Test-Path $output) {
+    Remove-Item $output
+}
+
+Add-Content $output "=== DUMP COMPLETO DO PROJETO ==="
+Add-Content $output ("Gerado em: " + (Get-Date))
+Add-Content $output ""
+Add-Content $output "RAIZ: $root"
+Add-Content $output ""
+Add-Content $output "----------------------------------------"
+Add-Content $output ""
+
+function IgnorarDiretorio($path) {
+    foreach ($dir in $ignoreDirs) {
+        if ($path -like "*\$dir*") {
+            return $true
+        }
+    }
+    return $false
+}
+
+Get-ChildItem -Recurse -Force | ForEach-Object {
+
+    if (IgnorarDiretorio $_.FullName) {
+        return
+    }
+
+    $relativePath = $_.FullName.Replace($root.Path + "\", "")
+
+    if ($_.PSIsContainer) {
+
+        Add-Content $output ""
+        Add-Content $output ("[DIRETORIO] " + $relativePath)
+        Add-Content $output ""
+
+    } else {
+
+        Add-Content $output ""
+        Add-Content $output ("[ARQUIVO] " + $relativePath)
+        Add-Content $output "----------------------------------------"
+
+        try {
+            $conteudo = Get-Content $_.FullName -Raw -ErrorAction Stop
+            if ($conteudo.Trim().Length -eq 0) {
+                Add-Content $output "(arquivo vazio)"
+            } else {
+                Add-Content $output $conteudo
+            }
+        } catch {
+            Add-Content $output "(nao foi possivel ler o arquivo)"
+        }
+
+        Add-Content $output ""
+        Add-Content $output "----------------------------------------"
+    }
+}
+
+Add-Content $output ""
+Add-Content $output "=== FIM DO DUMP ==="
+
+
+----------------------------------------
+
+[ARQUIVO] mkdocs.yml
+----------------------------------------
+
+site_name: Wiki EY-BB
+site_description: Portal de Comunidades e DocumentaÃ§Ã£o EY
+site_author: Rodrigo Ramos
+site_url: https://rodrigo-ramos-ey.github.io/wiki-ey-bb/docs/
+
+repo_name: rodrigo-ramos-ey/wiki-ey-bb
+repo_url: https://github.com/rodrigo-ramos-ey/wiki-ey-bb
+edit_uri: edit/main/docs/
+
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  language: pt-BR
+  palette:
+    scheme: slate
+    primary: yellow
+    accent: yellow
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - content.code.copy
+
+nav:
+  - Home: index.md
+  - Comunidades:
+      - VisÃ£o Geral: comunidades/index.md
+      - Cloud & DevOps: comunidades/cloud/index.md
+  - Onboarding:
+      - IntroduÃ§Ã£o: onboarding/index.md
+  - OF:
+      - Entrega de OF: of/index.md
+  - Ambiente BB:
+      - Geral: ambiente/index.md
+
+
+----------------------------------------
+
+[ARQUIVO] setup-comunidades-mkdocs.ps1
+----------------------------------------
+Write-Host "Setup completo de comunidades - MkDocs"
+
+$baseDocs = "docs/comunidades"
+
+$comunidades = @(
+  @{
+    nome="TryCatchers"; pasta="trycatchers";
+    membros=@(
+      @{nome="Luiza Abreu"; papel="Lider"},
+      @{nome="Thiago Favorino"; papel="Membro"},
+      @{nome="Alan Barbosa"; papel="Membro"},
+      @{nome="Felipe Silveira"; papel="Membro"},
+      @{nome="Guilherme Oliveira"; papel="Membro"},
+      @{nome="Luiz Octavio Horta"; papel="Membro"},
+      @{nome="Tairone Gomes"; papel="Deploy"},
+      @{nome="Thais Guedes"; papel="OF"}
+    )
+  },
+  @{
+    nome="MainFriends"; pasta="mainfriends";
+    membros=@(
+      @{nome="Mauro Napoli"; papel="Lider"},
+      @{nome="Alessandro Miranda"; papel="Deploy"},
+      @{nome="Arthur Letissio"; papel="Membro"},
+      @{nome="Bruna Bertolotto"; papel="Membro"},
+      @{nome="Bernardo Sousa"; papel="Membro"},
+      @{nome="Dalvolinda da Silva"; papel="Membro"},
+      @{nome="Daniel Dantas"; papel="OF"},
+      @{nome="Karoline Gomes"; papel="Membro"},
+      @{nome="Mayara Serra"; papel="Vice-Lider / Timesheet"},
+      @{nome="Rodrigo Ramos"; papel="Membro"}
+    )
+  },
+  @{
+    nome="Technautas"; pasta="technautas";
+    membros=@(
+      @{nome="Mariany Santos"; papel="Lider"},
+      @{nome="Antonio Melo"; papel="Membro"},
+      @{nome="Fabricio Lemos"; papel="Deploy"},
+      @{nome="Karolina Trindade"; papel="Timesheet"},
+      @{nome="Maria Melo"; papel="Membro"},
+      @{nome="Rodrigo Santos"; papel="Membro"},
+      @{nome="Vitor Matheus"; papel="OF"},
+      @{nome="Vinicius Vieira"; papel="Membro"},
+      @{nome="Yago Santos"; papel="Membro"}
+    )
+  },
+  @{
+    nome="CloudDevios"; pasta="clouddevios";
+    membros=@(
+      @{nome="Rodrigo Ramos"; papel="Lider"},
+      @{nome="Fabio Rhormens"; papel="Membro"},
+      @{nome="Marcos Porfirio"; papel="Membro"},
+      @{nome="Mauro Napoli"; papel="Membro"},
+      @{nome="Roberto Souza"; papel="Membro"}
+    )
+  },
+  @{
+    nome="Apollo DEVs"; pasta="apollodevs";
+    membros=@(
+      @{nome="Josue Alcantara"; papel="Lider"},
+      @{nome="Joel Silva"; papel="Deploy"},
+      @{nome="Felipe Saraiva"; papel="Membro"},
+      @{nome="Luca Lacerda"; papel="Membro"},
+      @{nome="Jose Martinez"; papel="Membro"},
+      @{nome="Kevin Mailho"; papel="Membro"},
+      @{nome="Rychard Ryan"; papel="Membro"}
+    )
+  },
+  @{
+    nome="404 Ninjas"; pasta="404-ninjas";
+    membros=@(
+      @{nome="Pedro Borges"; papel="Lider"},
+      @{nome="Alan Lima"; papel="Vice-Lider"},
+      @{nome="Daniel Mesquita"; papel="Membro"},
+      @{nome="Eriani da Silva"; papel="Membro"},
+      @{nome="Luiza Sofal"; papel="Membro"},
+      @{nome="Marcos Fabio"; papel="Membro"},
+      @{nome="Mariane Rozeno"; papel="OF"},
+      @{nome="Rafael Goncalves"; papel="Membro"},
+      @{nome="Wesley Barbosa"; papel="Membro"}
+    )
+  },
+  @{
+    nome="R.I.P (REST in Peace)"; pasta="rip";
+    membros=@(
+      @{nome="Gabriel Serafim"; papel="Lider"},
+      @{nome="Ivens Oliveira"; papel="Membro"},
+      @{nome="Fabricio Barbosa"; papel="Membro"},
+      @{nome="Lucas Almeida"; papel="Membro"},
+      @{nome="Lucas Bueno"; papel="Membro"},
+      @{nome="Mikaela Pereira"; papel="Membro"},
+      @{nome="Magno Mendes"; papel="Membro"},
+      @{nome="Moises Araujo"; papel="Membro"},
+      @{nome="Lucas Gomes"; papel="Membro"}
+    )
+  },
+  @{
+    nome="ArchiByte"; pasta="archibyte";
+    membros=@(
+      @{nome="Daniel Dantas"; papel="Lider"},
+      @{nome="Alan Bruno de Melo Rosa"; papel="Membro"},
+      @{nome="Ciro Jose Velozo Ribeiro"; papel="Membro"},
+      @{nome="Gabriel Moreira da Silva"; papel="Membro"},
+      @{nome="Thaissa Lopes Moreira"; papel="Membro"},
+      @{nome="Romulo Belo"; papel="Membro"}
+    )
+  }
+)
+
+# Garantir base
+New-Item $baseDocs -ItemType Directory -Force | Out-Null
+
+# ============================
+# INDEX GERAL
+# ============================
+$index = @("# Comunidades","","## Tech","")
+foreach ($c in $comunidades) {
+  $lider = ($c.membros | Where-Object { $_.papel -eq "Lider" }).nome
+  $index += "- [" + $c.nome + "](" + $c.pasta + "/) - " + $lider
+}
+Set-Content ($baseDocs + "/index.md") $index -Encoding UTF8
+
+# ============================
+# COMUNIDADES E MEMBROS
+# ============================
+foreach ($c in $comunidades) {
+
+  $comBase = $baseDocs + "/" + $c.pasta
+  $membrosBase = $comBase + "/membros"
+  New-Item $membrosBase -ItemType Directory -Force | Out-Null
+
+  $conteudo = @("# " + $c.nome,"","## Membros","")
+
+  foreach ($m in $c.membros) {
+
+    $slug = $m.nome.ToLower()
+    $slug = $slug.Replace(" ","-")
+
+    $conteudo += "- [" + $m.nome + "](membros/" + $slug + "/) - " + $m.papel
+
+    $perfilPath = $membrosBase + "/" + $slug
+    New-Item $perfilPath -ItemType Directory -Force | Out-Null
+
+    $perfil = @(
+      "# " + $m.nome,
+      "",
+      "Comunidade: " + $c.nome,
+      "Papel: " + $m.papel,
+      "",
+      "## OF atual",
+      "Nao informado",
+      "",
+      "## Status report",
+      "Em andamento",
+      "",
+      "## Termometro de humor",
+      "Verde"
+    )
+
+    Set-Content ($perfilPath + "/index.md") $perfil -Encoding UTF8
+  }
+
+  Set-Content ($comBase + "/index.md") $conteudo -Encoding UTF8
+}
+
+# ============================
+# LIMPEZA BUILD
+# ============================
+if (Test-Path "site") {
+  Remove-Item -Recurse -Force site
+}
+
+# ============================
+# DEPLOY
+# ============================
+mkdocs gh-deploy --clean
+
+Write-Host "Setup finalizado com sucesso"
+
+
+----------------------------------------
+
+[ARQUIVO] data\comunidades.json
+----------------------------------------
+
+[
+  { "nome": "CloudDevios", "lider": "Rodrigo Ramos", "area": "Tech" }
+]
+
+
+----------------------------------------
+
+[DIRETORIO] docs\ambiente
+
+
+[DIRETORIO] docs\comunidades
+
+
+[DIRETORIO] docs\of
+
+
+[DIRETORIO] docs\onboarding
+
+
+[ARQUIVO] docs\index.md
+----------------------------------------
+# DocumentaÃ§Ã£o
+
+----------------------------------------
+
+[ARQUIVO] docs\ambiente\index.md
+----------------------------------------
+# Ambiente
+
+----------------------------------------
+
+[DIRETORIO] docs\comunidades\404-ninjas
+
+
+[DIRETORIO] docs\comunidades\apollodevs
+
+
+[DIRETORIO] docs\comunidades\archibyte
+
+
+[DIRETORIO] docs\comunidades\capotamasnumbreca
+
+
+[DIRETORIO] docs\comunidades\clouddevios
+
+
+[DIRETORIO] docs\comunidades\mainfriends
+
+
+[DIRETORIO] docs\comunidades\rip
+
+
+[DIRETORIO] docs\comunidades\technautas
+
+
+[DIRETORIO] docs\comunidades\trycatchers
+
+
+[ARQUIVO] docs\comunidades\index.md
+----------------------------------------
+# Comunidades
+
+## Tech
+
+- [TryCatchers](trycatchers/) - Luiza Abreu
+- [MainFriends](mainfriends/) - Mauro Napoli
+- [Technautas](technautas/) - Mariany Santos
+- [CloudDevios](clouddevios/) - Rodrigo Ramos
+- [Apollo DEVs](apollodevs/) - Josue Alcantara
+- [404 Ninjas](404-ninjas/) - Pedro Borges
+- [R.I.P (REST in Peace)](rip/) - Gabriel Serafim
+- [ArchiByte](archibyte/) - Daniel Dantas
+
+
+----------------------------------------
+
+[DIRETORIO] docs\comunidades\404-ninjas\membros
+
+
+[ARQUIVO] docs\comunidades\404-ninjas\index.md
+----------------------------------------
+# 404 Ninjas  ## Membros 
+- [Pedro Borges](membros/pedro-borges/) - Lider
+- [Alan Lima](membros/alan-lima/) - Vice-Lider
+- [Daniel Mesquita](membros/daniel-mesquita/) - Membro
+- [Eriani da Silva](membros/eriani-da-silva/) - Membro
+- [Luiza Sofal](membros/luiza-sofal/) - Membro
+- [Marcos Fabio](membros/marcos-fabio/) - Membro
+- [Mariane Rozeno](membros/mariane-rozeno/) - OF
+- [Rafael Goncalves](membros/rafael-goncalves/) - Membro
+- [Wesley Barbosa](membros/wesley-barbosa/) - Membro
+
+
+----------------------------------------
+
+[DIRETORIO] docs\comunidades\404-ninjas\membros\alan-lima
+
+
+[DIRETORIO] docs\comunidades\404-ninjas\membros\daniel-mesquita
+
+
+[DIRETORIO] docs\comunidades\404-ninjas\membros\eriani-da-silva
+
+
+[DIRETORIO] docs\comunidades\404-ninjas\membros\luiza-sofal
+
+
+[DIRETORIO] docs\comunidades\404-ninjas\membros\marcos-fabio
+
+
+[DIRETORIO] docs\comunidades\404-ninjas\membros\mariane-rozeno
+
+
+[DIRETORIO] docs\comunidades\404-ninjas\membros\pedro-borges
+
+
+[DIRETORIO] docs\comunidades\404-ninjas\membros\rafael-goncalves
+
+
+[DIRETORIO] docs\comunidades\404-ninjas\membros\wesley-barbosa
+
+
+[ARQUIVO] docs\comunidades\404-ninjas\membros\alan-lima\index.md
+----------------------------------------
+# Alan Lima  Comunidade: 404 Ninjas Papel: Vice-Lider  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\404-ninjas\membros\daniel-mesquita\index.md
+----------------------------------------
+# Daniel Mesquita  Comunidade: 404 Ninjas Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\404-ninjas\membros\eriani-da-silva\index.md
+----------------------------------------
+# Eriani da Silva  Comunidade: 404 Ninjas Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\404-ninjas\membros\luiza-sofal\index.md
+----------------------------------------
+# Luiza Sofal  Comunidade: 404 Ninjas Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\404-ninjas\membros\marcos-fabio\index.md
+----------------------------------------
+# Marcos Fabio  Comunidade: 404 Ninjas Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\404-ninjas\membros\mariane-rozeno\index.md
+----------------------------------------
+# Mariane Rozeno  Comunidade: 404 Ninjas Papel: OF  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\404-ninjas\membros\pedro-borges\index.md
+----------------------------------------
+# Pedro Borges  Comunidade: 404 Ninjas Papel: Lider  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\404-ninjas\membros\rafael-goncalves\index.md
+----------------------------------------
+# Rafael Goncalves  Comunidade: 404 Ninjas Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\404-ninjas\membros\wesley-barbosa\index.md
+----------------------------------------
+# Wesley Barbosa  Comunidade: 404 Ninjas Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[DIRETORIO] docs\comunidades\apollodevs\membros
+
+
+[ARQUIVO] docs\comunidades\apollodevs\index.md
+----------------------------------------
+# Apollo DEVs  ## Membros 
+- [Josue Alcantara](membros/josue-alcantara/) - Lider
+- [Joel Silva](membros/joel-silva/) - Deploy
+- [Felipe Saraiva](membros/felipe-saraiva/) - Membro
+- [Luca Lacerda](membros/luca-lacerda/) - Membro
+- [Jose Martinez](membros/jose-martinez/) - Membro
+- [Kevin Mailho](membros/kevin-mailho/) - Membro
+- [Rychard Ryan](membros/rychard-ryan/) - Membro
+
+
+----------------------------------------
+
+[DIRETORIO] docs\comunidades\apollodevs\membros\felipe-saraiva
+
+
+[DIRETORIO] docs\comunidades\apollodevs\membros\joel-silva
+
+
+[DIRETORIO] docs\comunidades\apollodevs\membros\jose-martinez
+
+
+[DIRETORIO] docs\comunidades\apollodevs\membros\josue-alcantara
+
+
+[DIRETORIO] docs\comunidades\apollodevs\membros\kevin-mailho
+
+
+[DIRETORIO] docs\comunidades\apollodevs\membros\luca-lacerda
+
+
+[DIRETORIO] docs\comunidades\apollodevs\membros\rychard-ryan
+
+
+[ARQUIVO] docs\comunidades\apollodevs\membros\felipe-saraiva\index.md
+----------------------------------------
+# Felipe Saraiva  Comunidade: Apollo DEVs Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\apollodevs\membros\joel-silva\index.md
+----------------------------------------
+# Joel Silva  Comunidade: Apollo DEVs Papel: Deploy  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\apollodevs\membros\jose-martinez\index.md
+----------------------------------------
+# Jose Martinez  Comunidade: Apollo DEVs Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\apollodevs\membros\josue-alcantara\index.md
+----------------------------------------
+# Josue Alcantara  Comunidade: Apollo DEVs Papel: Lider  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\apollodevs\membros\kevin-mailho\index.md
+----------------------------------------
+# Kevin Mailho  Comunidade: Apollo DEVs Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\apollodevs\membros\luca-lacerda\index.md
+----------------------------------------
+# Luca Lacerda  Comunidade: Apollo DEVs Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\apollodevs\membros\rychard-ryan\index.md
+----------------------------------------
+# Rychard Ryan  Comunidade: Apollo DEVs Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[DIRETORIO] docs\comunidades\archibyte\membros
+
+
+[ARQUIVO] docs\comunidades\archibyte\index.md
+----------------------------------------
+# ArchiByte  ## Membros 
+- [Daniel Dantas](membros/daniel-dantas/) - Lider
+- [Alan Bruno de Melo Rosa](membros/alan-bruno-de-melo-rosa/) - Membro
+- [Ciro Jose Velozo Ribeiro](membros/ciro-jose-velozo-ribeiro/) - Membro
+- [Gabriel Moreira da Silva](membros/gabriel-moreira-da-silva/) - Membro
+- [Thaissa Lopes Moreira](membros/thaissa-lopes-moreira/) - Membro
+- [Romulo Belo](membros/romulo-belo/) - Membro
+
+
+----------------------------------------
+
+[DIRETORIO] docs\comunidades\archibyte\membros\alan-bruno-de-melo-rosa
+
+
+[DIRETORIO] docs\comunidades\archibyte\membros\ciro-jose-velozo-ribeiro
+
+
+[DIRETORIO] docs\comunidades\archibyte\membros\daniel-dantas
+
+
+[DIRETORIO] docs\comunidades\archibyte\membros\gabriel-moreira-da-silva
+
+
+[DIRETORIO] docs\comunidades\archibyte\membros\romulo-belo
+
+
+[DIRETORIO] docs\comunidades\archibyte\membros\thaissa-lopes-moreira
+
+
+[ARQUIVO] docs\comunidades\archibyte\membros\alan-bruno-de-melo-rosa\index.md
+----------------------------------------
+# Alan Bruno de Melo Rosa  Comunidade: ArchiByte Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\archibyte\membros\ciro-jose-velozo-ribeiro\index.md
+----------------------------------------
+# Ciro Jose Velozo Ribeiro  Comunidade: ArchiByte Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\archibyte\membros\daniel-dantas\index.md
+----------------------------------------
+# Daniel Dantas  Comunidade: ArchiByte Papel: Lider  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\archibyte\membros\gabriel-moreira-da-silva\index.md
+----------------------------------------
+# Gabriel Moreira da Silva  Comunidade: ArchiByte Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\archibyte\membros\romulo-belo\index.md
+----------------------------------------
+# Romulo Belo  Comunidade: ArchiByte Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\archibyte\membros\thaissa-lopes-moreira\index.md
+----------------------------------------
+# Thaissa Lopes Moreira  Comunidade: ArchiByte Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[DIRETORIO] docs\comunidades\capotamasnumbreca\membros
+
+
+[ARQUIVO] docs\comunidades\capotamasnumbreca\index.md
+----------------------------------------
+# Capotamasnumbreca
+
+Especialidade: Tecnologia
+Lider: Fabio Rhormens
+
+## Sobre
+Comunidade tecnica formada por profissionais da EY BB.
+
+## Membros
+- [Fabio Rhormens](membros/fabio-rhormens/) - Lider
+
+
+----------------------------------------
+
+[DIRETORIO] docs\comunidades\capotamasnumbreca\membros\fabio-rhormens
+
+
+[ARQUIVO] docs\comunidades\capotamasnumbreca\membros\fabio-rhormens\index.md
+----------------------------------------
+# Fabio Rhormens
+
+Comunidade: Capotamasnumbreca
+Papel: Lider
+
+## OF atual
+Nao informado
+
+## Status report
+Responsavel pela lideranca da comunidade.
+
+## Termometro de humor
+Verde
+
+
+----------------------------------------
+
+[DIRETORIO] docs\comunidades\clouddevios\membros
+
+
+[ARQUIVO] docs\comunidades\clouddevios\index.md
+----------------------------------------
+# CloudDevios  ## Membros 
+- [Rodrigo Ramos](membros/rodrigo-ramos/) - Lider
+- [Fabio Rhormens](membros/fabio-rhormens/) - Membro
+- [Marcos Porfirio](membros/marcos-porfirio/) - Membro
+- [Mauro Napoli](membros/mauro-napoli/) - Membro
+- [Roberto Souza](membros/roberto-souza/) - Membro
+
+
+----------------------------------------
+
+[DIRETORIO] docs\comunidades\clouddevios\membros\fabio-rhormens
+
+
+[DIRETORIO] docs\comunidades\clouddevios\membros\marcos-porfirio
+
+
+[DIRETORIO] docs\comunidades\clouddevios\membros\mauro-napoli
+
+
+[DIRETORIO] docs\comunidades\clouddevios\membros\roberto-souza
+
+
+[DIRETORIO] docs\comunidades\clouddevios\membros\rodrigo-ramos
+
+
+[ARQUIVO] docs\comunidades\clouddevios\membros\fabio-rhormens\index.md
+----------------------------------------
+# Fabio Rhormens  Comunidade: CloudDevios Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\clouddevios\membros\marcos-porfirio\index.md
+----------------------------------------
+# Marcos Porfirio  Comunidade: CloudDevios Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\clouddevios\membros\mauro-napoli\index.md
+----------------------------------------
+# Mauro Napoli  Comunidade: CloudDevios Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\clouddevios\membros\roberto-souza\index.md
+----------------------------------------
+# Roberto Souza  Comunidade: CloudDevios Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\clouddevios\membros\rodrigo-ramos\index.md
+----------------------------------------
+# Rodrigo Ramos  Comunidade: CloudDevios Papel: Lider  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[DIRETORIO] docs\comunidades\mainfriends\membros
+
+
+[ARQUIVO] docs\comunidades\mainfriends\index.md
+----------------------------------------
+# MainFriends  ## Membros 
+- [Mauro Napoli](membros/mauro-napoli/) - Lider
+- [Alessandro Miranda](membros/alessandro-miranda/) - Deploy
+- [Arthur Letissio](membros/arthur-letissio/) - Membro
+- [Bruna Bertolotto](membros/bruna-bertolotto/) - Membro
+- [Bernardo Sousa](membros/bernardo-sousa/) - Membro
+- [Dalvolinda da Silva](membros/dalvolinda-da-silva/) - Membro
+- [Daniel Dantas](membros/daniel-dantas/) - OF
+- [Karoline Gomes](membros/karoline-gomes/) - Membro
+- [Mayara Serra](membros/mayara-serra/) - Vice-Lider / Timesheet
+- [Rodrigo Ramos](membros/rodrigo-ramos/) - Membro
+
+
+----------------------------------------
+
+[DIRETORIO] docs\comunidades\mainfriends\membros\alessandro-miranda
+
+
+[DIRETORIO] docs\comunidades\mainfriends\membros\arthur-letissio
+
+
+[DIRETORIO] docs\comunidades\mainfriends\membros\bernardo-sousa
+
+
+[DIRETORIO] docs\comunidades\mainfriends\membros\bruna-bertolotto
+
+
+[DIRETORIO] docs\comunidades\mainfriends\membros\dalvolinda-da-silva
+
+
+[DIRETORIO] docs\comunidades\mainfriends\membros\daniel-dantas
+
+
+[DIRETORIO] docs\comunidades\mainfriends\membros\karoline-gomes
+
+
+[DIRETORIO] docs\comunidades\mainfriends\membros\mauro-napoli
+
+
+[DIRETORIO] docs\comunidades\mainfriends\membros\mayara-serra
+
+
+[DIRETORIO] docs\comunidades\mainfriends\membros\rodrigo-ramos
+
+
+[ARQUIVO] docs\comunidades\mainfriends\membros\alessandro-miranda\index.md
+----------------------------------------
+# Alessandro Miranda  Comunidade: MainFriends Papel: Deploy  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\mainfriends\membros\arthur-letissio\index.md
+----------------------------------------
+# Arthur Letissio  Comunidade: MainFriends Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\mainfriends\membros\bernardo-sousa\index.md
+----------------------------------------
+# Bernardo Sousa  Comunidade: MainFriends Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\mainfriends\membros\bruna-bertolotto\index.md
+----------------------------------------
+# Bruna Bertolotto  Comunidade: MainFriends Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\mainfriends\membros\dalvolinda-da-silva\index.md
+----------------------------------------
+# Dalvolinda da Silva  Comunidade: MainFriends Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\mainfriends\membros\daniel-dantas\index.md
+----------------------------------------
+# Daniel Dantas  Comunidade: MainFriends Papel: OF  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\mainfriends\membros\karoline-gomes\index.md
+----------------------------------------
+# Karoline Gomes  Comunidade: MainFriends Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\mainfriends\membros\mauro-napoli\index.md
+----------------------------------------
+# Mauro Napoli  Comunidade: MainFriends Papel: Lider  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\mainfriends\membros\mayara-serra\index.md
+----------------------------------------
+# Mayara Serra  Comunidade: MainFriends Papel: Vice-Lider / Timesheet  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\mainfriends\membros\rodrigo-ramos\index.md
+----------------------------------------
+# Rodrigo Ramos  Comunidade: MainFriends Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[DIRETORIO] docs\comunidades\rip\membros
+
+
+[ARQUIVO] docs\comunidades\rip\index.md
+----------------------------------------
+# R.I.P (REST in Peace)  ## Membros 
+- [Gabriel Serafim](membros/gabriel-serafim/) - Lider
+- [Ivens Oliveira](membros/ivens-oliveira/) - Membro
+- [Fabricio Barbosa](membros/fabricio-barbosa/) - Membro
+- [Lucas Almeida](membros/lucas-almeida/) - Membro
+- [Lucas Bueno](membros/lucas-bueno/) - Membro
+- [Mikaela Pereira](membros/mikaela-pereira/) - Membro
+- [Magno Mendes](membros/magno-mendes/) - Membro
+- [Moises Araujo](membros/moises-araujo/) - Membro
+- [Lucas Gomes](membros/lucas-gomes/) - Membro
+
+
+----------------------------------------
+
+[DIRETORIO] docs\comunidades\rip\membros\fabricio-barbosa
+
+
+[DIRETORIO] docs\comunidades\rip\membros\gabriel-serafim
+
+
+[DIRETORIO] docs\comunidades\rip\membros\ivens-oliveira
+
+
+[DIRETORIO] docs\comunidades\rip\membros\lucas-almeida
+
+
+[DIRETORIO] docs\comunidades\rip\membros\lucas-bueno
+
+
+[DIRETORIO] docs\comunidades\rip\membros\lucas-gomes
+
+
+[DIRETORIO] docs\comunidades\rip\membros\magno-mendes
+
+
+[DIRETORIO] docs\comunidades\rip\membros\mikaela-pereira
+
+
+[DIRETORIO] docs\comunidades\rip\membros\moises-araujo
+
+
+[ARQUIVO] docs\comunidades\rip\membros\fabricio-barbosa\index.md
+----------------------------------------
+# Fabricio Barbosa  Comunidade: R.I.P (REST in Peace) Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\rip\membros\gabriel-serafim\index.md
+----------------------------------------
+# Gabriel Serafim  Comunidade: R.I.P (REST in Peace) Papel: Lider  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\rip\membros\ivens-oliveira\index.md
+----------------------------------------
+# Ivens Oliveira  Comunidade: R.I.P (REST in Peace) Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\rip\membros\lucas-almeida\index.md
+----------------------------------------
+# Lucas Almeida  Comunidade: R.I.P (REST in Peace) Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\rip\membros\lucas-bueno\index.md
+----------------------------------------
+# Lucas Bueno  Comunidade: R.I.P (REST in Peace) Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\rip\membros\lucas-gomes\index.md
+----------------------------------------
+# Lucas Gomes  Comunidade: R.I.P (REST in Peace) Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\rip\membros\magno-mendes\index.md
+----------------------------------------
+# Magno Mendes  Comunidade: R.I.P (REST in Peace) Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\rip\membros\mikaela-pereira\index.md
+----------------------------------------
+# Mikaela Pereira  Comunidade: R.I.P (REST in Peace) Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\rip\membros\moises-araujo\index.md
+----------------------------------------
+# Moises Araujo  Comunidade: R.I.P (REST in Peace) Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[DIRETORIO] docs\comunidades\technautas\membros
+
+
+[ARQUIVO] docs\comunidades\technautas\index.md
+----------------------------------------
+# Technautas  ## Membros 
+- [Mariany Santos](membros/mariany-santos/) - Lider
+- [Antonio Melo](membros/antonio-melo/) - Membro
+- [Fabricio Lemos](membros/fabricio-lemos/) - Deploy
+- [Karolina Trindade](membros/karolina-trindade/) - Timesheet
+- [Maria Melo](membros/maria-melo/) - Membro
+- [Rodrigo Santos](membros/rodrigo-santos/) - Membro
+- [Vitor Matheus](membros/vitor-matheus/) - OF
+- [Vinicius Vieira](membros/vinicius-vieira/) - Membro
+- [Yago Santos](membros/yago-santos/) - Membro
+
+
+----------------------------------------
+
+[DIRETORIO] docs\comunidades\technautas\membros\antonio-melo
+
+
+[DIRETORIO] docs\comunidades\technautas\membros\fabricio-lemos
+
+
+[DIRETORIO] docs\comunidades\technautas\membros\karolina-trindade
+
+
+[DIRETORIO] docs\comunidades\technautas\membros\maria-melo
+
+
+[DIRETORIO] docs\comunidades\technautas\membros\mariany-santos
+
+
+[DIRETORIO] docs\comunidades\technautas\membros\rodrigo-santos
+
+
+[DIRETORIO] docs\comunidades\technautas\membros\vinicius-vieira
+
+
+[DIRETORIO] docs\comunidades\technautas\membros\vitor-matheus
+
+
+[DIRETORIO] docs\comunidades\technautas\membros\yago-santos
+
+
+[ARQUIVO] docs\comunidades\technautas\membros\antonio-melo\index.md
+----------------------------------------
+# Antonio Melo  Comunidade: Technautas Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\technautas\membros\fabricio-lemos\index.md
+----------------------------------------
+# Fabricio Lemos  Comunidade: Technautas Papel: Deploy  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\technautas\membros\karolina-trindade\index.md
+----------------------------------------
+# Karolina Trindade  Comunidade: Technautas Papel: Timesheet  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\technautas\membros\maria-melo\index.md
+----------------------------------------
+# Maria Melo  Comunidade: Technautas Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\technautas\membros\mariany-santos\index.md
+----------------------------------------
+# Mariany Santos  Comunidade: Technautas Papel: Lider  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\technautas\membros\rodrigo-santos\index.md
+----------------------------------------
+# Rodrigo Santos  Comunidade: Technautas Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\technautas\membros\vinicius-vieira\index.md
+----------------------------------------
+# Vinicius Vieira  Comunidade: Technautas Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\technautas\membros\vitor-matheus\index.md
+----------------------------------------
+# Vitor Matheus  Comunidade: Technautas Papel: OF  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\technautas\membros\yago-santos\index.md
+----------------------------------------
+# Yago Santos  Comunidade: Technautas Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[DIRETORIO] docs\comunidades\trycatchers\membros
+
+
+[ARQUIVO] docs\comunidades\trycatchers\index.md
+----------------------------------------
+# TryCatchers  ## Membros 
+- [Luiza Abreu](membros/luiza-abreu/) - Lider
+- [Thiago Favorino](membros/thiago-favorino/) - Membro
+- [Alan Barbosa](membros/alan-barbosa/) - Membro
+- [Felipe Silveira](membros/felipe-silveira/) - Membro
+- [Guilherme Oliveira](membros/guilherme-oliveira/) - Membro
+- [Luiz Octavio Horta](membros/luiz-octavio-horta/) - Membro
+- [Tairone Gomes](membros/tairone-gomes/) - Deploy
+- [Thais Guedes](membros/thais-guedes/) - OF
+
+
+----------------------------------------
+
+[DIRETORIO] docs\comunidades\trycatchers\membros\alan-barbosa
+
+
+[DIRETORIO] docs\comunidades\trycatchers\membros\felipe-silveira
+
+
+[DIRETORIO] docs\comunidades\trycatchers\membros\guilherme-oliveira
+
+
+[DIRETORIO] docs\comunidades\trycatchers\membros\luiz-octavio-horta
+
+
+[DIRETORIO] docs\comunidades\trycatchers\membros\luiza-abreu
+
+
+[DIRETORIO] docs\comunidades\trycatchers\membros\tairone-gomes
+
+
+[DIRETORIO] docs\comunidades\trycatchers\membros\thais-guedes
+
+
+[DIRETORIO] docs\comunidades\trycatchers\membros\thiago-favorino
+
+
+[ARQUIVO] docs\comunidades\trycatchers\membros\alan-barbosa\index.md
+----------------------------------------
+# Alan Barbosa  Comunidade: TryCatchers Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\trycatchers\membros\felipe-silveira\index.md
+----------------------------------------
+# Felipe Silveira  Comunidade: TryCatchers Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\trycatchers\membros\guilherme-oliveira\index.md
+----------------------------------------
+# Guilherme Oliveira  Comunidade: TryCatchers Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\trycatchers\membros\luiz-octavio-horta\index.md
+----------------------------------------
+# Luiz Octavio Horta  Comunidade: TryCatchers Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\trycatchers\membros\luiza-abreu\index.md
+----------------------------------------
+# Luiza Abreu  Comunidade: TryCatchers Papel: Lider  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\trycatchers\membros\tairone-gomes\index.md
+----------------------------------------
+# Tairone Gomes  Comunidade: TryCatchers Papel: Deploy  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\trycatchers\membros\thais-guedes\index.md
+----------------------------------------
+# Thais Guedes  Comunidade: TryCatchers Papel: OF  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\comunidades\trycatchers\membros\thiago-favorino\index.md
+----------------------------------------
+# Thiago Favorino  Comunidade: TryCatchers Papel: Membro  ## OF atual Nao informado  ## Status report Em andamento  ## Termometro de humor Verde
+
+
+----------------------------------------
+
+[ARQUIVO] docs\of\index.md
+----------------------------------------
+# OF
+
+----------------------------------------
+
+[ARQUIVO] docs\onboarding\index.md
+----------------------------------------
+# Onboarding
+
+----------------------------------------
+
+=== FIM DO DUMP ===

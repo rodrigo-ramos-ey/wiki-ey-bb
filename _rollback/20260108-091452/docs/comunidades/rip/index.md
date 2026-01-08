@@ -1,0 +1,10 @@
+﻿# R.I.P (REST in Peace)  ## Membros 
+- [Gabriel Serafim](membros/gabriel-serafim/) - Lider
+- [Ivens Oliveira](membros/ivens-oliveira/) - Membro
+- [Fabricio Barbosa](membros/fabricio-barbosa/) - Membro
+- [Lucas Almeida](membros/lucas-almeida/) - Membro
+- [Lucas Bueno](membros/lucas-bueno/) - Membro
+- [Mikaela Pereira](membros/mikaela-pereira/) - Membro
+- [Magno Mendes](membros/magno-mendes/) - Membro
+- [Moises Araujo](membros/moises-araujo/) - Membro
+- [Lucas Gomes](membros/lucas-gomes/) - Membro
