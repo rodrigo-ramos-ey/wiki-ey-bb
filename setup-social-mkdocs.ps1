@@ -1,179 +1,190 @@
-Write-Host "=== Setup Social MkDocs (com rollback) ==="
+Write-Host "=== Setup Social MkDocs (modelo correto, com rollback) ==="
 
-# ======================================================
-# CONFIGURACAO
-# ======================================================
+# =========================
+# CONFIG
+# =========================
 
 $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
 $rollbackDir = "_rollback/$timestamp"
 $docsDir = "docs"
+$comunidadesDir = "docs/comunidades"
+$pessoasDir = "docs/pessoas"
 
-# ======================================================
-# ROLLBACK - BACKUP COMPLETO
-# ======================================================
+# =========================
+# BACKUP / ROLLBACK
+# =========================
 
-Write-Host "Criando backup para rollback..."
+Write-Host "Criando backup..."
 
 New-Item $rollbackDir -ItemType Directory -Force | Out-Null
 Copy-Item $docsDir $rollbackDir -Recurse -Force
 Copy-Item "mkdocs.yml" $rollbackDir -Force
 
-Write-Host "Backup criado em $rollbackDir"
-
-# ======================================================
-# COMMIT DE SEGURANCA
-# ======================================================
-
 git add .
-git commit -m "backup: estado antes do setup social ($timestamp)"
+git commit -m "backup: antes do setup social ($timestamp)"
 
-# ======================================================
-# CRIAR ESTRUTURA PESSOAS
-# ======================================================
-
-$pessoasDir = "docs/pessoas"
-New-Item $pessoasDir -ItemType Directory -Force | Out-Null
-
-# ======================================================
+# =========================
 # CSS SOCIAL
-# ======================================================
+# =========================
 
 $cssDir = "docs/stylesheets"
 New-Item $cssDir -ItemType Directory -Force | Out-Null
 
 $cssFile = "$cssDir/social.css"
 
-$css = @(
-".profile-card { max-width:700px; margin:auto; padding:24px; background:#1e1f26; border-radius:12px; }",
-".profile-avatar { width:160px; height:160px; border-radius:50%; object-fit:cover; display:block; margin:auto; border:4px solid #f7c600; }",
-".profile-name { text-align:center; font-size:2rem; margin-top:16px; }",
-".profile-section { margin-top:24px; }",
-".profile-section h2 { color:#f7c600; font-size:1.2rem; }",
-".humor-green { color:#2ecc71; font-weight:bold; }",
-".humor-yellow { color:#f1c40f; font-weight:bold; }",
-".humor-red { color:#e74c3c; font-weight:bold; }"
-)
+@"
+.profile-card {
+  max-width: 720px;
+  margin: auto;
+  padding: 24px;
+  background: #1e1f26;
+  border-radius: 12px;
+}
+.profile-avatar {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  margin: auto;
+  border: 4px solid #f7c600;
+}
+.profile-name {
+  text-align: center;
+  font-size: 2rem;
+  margin-top: 16px;
+  color: #ffffff;
+}
+.profile-section {
+  margin-top: 24px;
+}
+.profile-section h2 {
+  color: #f7c600;
+  font-size: 1.2rem;
+}
+.humor-green { color: #2ecc71; font-weight: bold; }
+.humor-yellow { color: #f1c40f; font-weight: bold; }
+.humor-red { color: #e74c3c; font-weight: bold; }
+"@ | Set-Content $cssFile -Encoding UTF8
 
-Set-Content $cssFile $css -Encoding UTF8
-
-# ======================================================
-# COLETAR PESSOAS DAS COMUNIDADES EXISTENTES
-# ======================================================
+# =========================
+# COLETAR PESSOAS DAS COMUNIDADES
+# =========================
 
 $pessoas = @{}
 
-Get-ChildItem "docs/comunidades" -Directory | ForEach-Object {
+Get-ChildItem $comunidadesDir -Directory | ForEach-Object {
 
-    $comunidade = $_.Name
-    $membrosDir = "$($_.FullName)/membros"
+    $comSlug = $_.Name
+    $indexFile = "$($_.FullName)/index.md"
 
-    if (Test-Path $membrosDir) {
-        Get-ChildItem $membrosDir -Directory | ForEach-Object {
+    if (!(Test-Path $indexFile)) { return }
 
-            $slug = $_.Name
+    Get-Content $indexFile | ForEach-Object {
 
-            if (!$pessoas.ContainsKey($slug)) {
+        if ($_ -match '^- \[(.+?)\].+[-–—] (.+)$') {
+
+            $nome = $matches[1]
+            $papel = $matches[2]
+            $slug = $nome.ToLower().Replace(" ", "-")
+
+            if (-not $pessoas.ContainsKey($slug)) {
                 $pessoas[$slug] = @{
+                    nome = $nome
                     slug = $slug
                     comunidades = @()
                     papeis = @()
                 }
             }
 
-            $pessoas[$slug].comunidades += $comunidade
+            $pessoas[$slug].comunidades += $comSlug
+            $pessoas[$slug].papeis += "$papel ($comSlug)"
         }
     }
 }
 
-# ======================================================
-# GERAR PERFIS DE PESSOAS
-# ======================================================
+# =========================
+# CRIAR PERFIS (PESSOA)
+# =========================
 
-foreach ($p in $pessoas.Keys) {
+New-Item $pessoasDir -ItemType Directory -Force | Out-Null
 
-    $perfilDir = "$pessoasDir/$p"
+foreach ($p in $pessoas.Values) {
+
+    $perfilDir = "$pessoasDir/$($p.slug)"
     New-Item $perfilDir -ItemType Directory -Force | Out-Null
 
-    # foto placeholder
     $foto = "$perfilDir/foto.jpg"
     if (!(Test-Path $foto)) {
-        Set-Content $foto "(adicione uma foto aqui)"
+        Set-Content $foto "adicione uma foto aqui"
     }
 
-    # conexoes = pessoas da mesma comunidade
+    # conexoes = pessoas das mesmas comunidades
     $conexoes = @()
-    foreach ($c in $pessoas[$p].comunidades) {
-        foreach ($outro in $pessoas.Keys) {
-            if ($outro -ne $p -and $pessoas[$outro].comunidades -contains $c) {
-                if ($conexoes -notcontains $outro) {
-                    $conexoes += $outro
+    foreach ($o in $pessoas.Values) {
+        if ($o.slug -ne $p.slug) {
+            foreach ($c in $p.comunidades) {
+                if ($o.comunidades -contains $c) {
+                    $conexoes += $o
+                    break
                 }
             }
         }
     }
 
-    $md = @()
-    $md += "<div class='profile-card'>"
-    $md += "<img src='foto.jpg' class='profile-avatar'/>"
-    $md += "<div class='profile-name'>$p</div>"
-    $md += "<div class='profile-section'><h2>Comunidades</h2><ul>"
+@"
+<div class="profile-card">
 
-    foreach ($c in $pessoas[$p].comunidades) {
-        $md += "<li><a href='../../comunidades/$c/'>$c</a></li>"
-    }
+<img src="foto.jpg" class="profile-avatar"/>
 
-    $md += "</ul></div>"
-    $md += "<div class='profile-section'><h2>Conexoes</h2><ul>"
+<div class="profile-name">$($p.nome)</div>
 
-    foreach ($cx in $conexoes) {
-        $md += "<li><a href='../$cx/'>$cx</a></li>"
-    }
+<div class="profile-section">
+<h2>Comunidades</h2>
+<ul>
+$(($p.comunidades | ForEach-Object { "<li><a href='../../comunidades/$_/'>$_</a></li>" }) -join "`n")
+</ul>
+</div>
 
-    $md += "</ul></div>"
-    $md += "<div class='profile-section'><h2>Status</h2><p>Em andamento</p></div>"
-    $md += "<div class='profile-section'><h2>Humor</h2><span class='humor-green'>Estavel</span></div>"
-    $md += "</div>"
+<div class="profile-section">
+<h2>Papéis</h2>
+<ul>
+$(($p.papeis | ForEach-Object { "<li>$_</li>" }) -join "`n")
+</ul>
+</div>
 
-    Set-Content "$perfilDir/index.md" $md -Encoding UTF8
+<div class="profile-section">
+<h2>Conexões</h2>
+<ul>
+$(($conexoes | ForEach-Object { "<li><a href='../$($_.slug)/'>$($_.nome)</a></li>" }) -join "`n")
+</ul>
+</div>
+
+<div class="profile-section">
+<h2>Status</h2>
+Em andamento
+</div>
+
+<div class="profile-section">
+<h2>Humor</h2>
+<span class="humor-green">Estável</span>
+</div>
+
+</div>
+"@ | Set-Content "$perfilDir/index.md" -Encoding UTF8
 }
 
-# ======================================================
-# ATUALIZAR COMUNIDADES PARA LINKAR PESSOAS
-# ======================================================
-
-Get-ChildItem "docs/comunidades" -Directory | ForEach-Object {
-
-    $com = $_.Name
-    $index = "$($_.FullName)/index.md"
-
-    if (Test-Path $index) {
-        $conteudo = Get-Content $index
-        $conteudo += ""
-        $conteudo += "## Pessoas"
-        foreach ($p in $pessoas.Keys) {
-            if ($pessoas[$p].comunidades -contains $com) {
-                $conteudo += "- [$p](../../pessoas/$p/)"
-            }
-        }
-        Set-Content $index $conteudo -Encoding UTF8
-    }
-}
-
-# ======================================================
-# ATUALIZAR MKDOCS
-# ======================================================
+# =========================
+# MKDOCS
+# =========================
 
 $mk = Get-Content "mkdocs.yml"
 if ($mk -notcontains "  - stylesheets/social.css") {
-    Add-Content "mkdocs.yml" ""
-    Add-Content "mkdocs.yml" "extra_css:"
-    Add-Content "mkdocs.yml" "  - stylesheets/social.css"
+@"
+extra_css:
+  - stylesheets/social.css
+"@ | Add-Content "mkdocs.yml"
 }
 
-# ======================================================
-# FINAL
-# ======================================================
-
 Write-Host "Setup social aplicado com sucesso"
-Write-Host "Rollback disponivel em: $rollbackDir"
-Write-Host "Para desfazer: copie o conteudo de $rollbackDir de volta para a raiz"
+Write-Host "Rollback: git reset --hard HEAD~1"
