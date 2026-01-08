@@ -1,10 +1,16 @@
 ﻿site_name: Wiki EY-BB
 docs_dir: docs
 site_dir: site
+
 theme:
   name: material
+
 nav:
   - Home: index.md
   - Comunidades: comunidades/index.md
+  - Onboarding: onboarding/index.md
+  - OF: of/index.md
+  - Ambiente BB: ambiente/index.md
+
 extra_css:
   - stylesheets/social.css
