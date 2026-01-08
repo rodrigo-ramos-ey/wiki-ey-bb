@@ -8,9 +8,6 @@ theme:
 nav:
   - Home: index.md
   - Comunidades: comunidades/index.md
-  - Onboarding: onboarding/index.md
-  - OF: of/index.md
-  - Ambiente BB: ambiente/index.md
 
 extra_css:
   - stylesheets/social.css

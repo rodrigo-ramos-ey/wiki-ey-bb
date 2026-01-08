@@ -1,17 +1,31 @@
-Write-Host "=== CORRECAO DEFINITIVA: REMOCAO CLOUD & DEVOPS ==="
+Write-Host "=== CORRECAO SEGURA MKDOCS - WIKI EY-BB ==="
 $ErrorActionPreference = "Stop"
 
 # =====================================================
-# 1. REMOVER PASTAS INVALIDAS
+# 1. GARANTIR HOME (docs/index.md)
 # =====================================================
-$pastasInvalidas = @(
+if (!(Test-Path "docs/index.md")) {
+    Write-Host "Criando docs/index.md"
+@"
+# Wiki EY-BB
+
+Bem-vindo a Wiki EY-BB.
+
+Utilize o menu superior para navegar pelas comunidades, onboarding,
+estrutura OF e ambiente BB.
+"@ | Set-Content "docs/index.md" -Encoding UTF8
+}
+
+# =====================================================
+# 2. REMOVER SOMENTE CLOUD / DEVOPS (SE EXISTIR)
+# =====================================================
+$invalidas = @(
   "docs/comunidades/cloud",
-  "docs/comunidades/clouddevios",
-  "site/comunidades/cloud",
-  "site/comunidades/clouddevios"
+  "docs/comunidades/cloud-devops",
+  "docs/comunidades/devops"
 )
 
-foreach ($p in $pastasInvalidas) {
+foreach ($p in $invalidas) {
   if (Test-Path $p) {
     Write-Host "Removendo $p"
     Remove-Item $p -Recurse -Force
@@ -19,48 +33,49 @@ foreach ($p in $pastasInvalidas) {
 }
 
 # =====================================================
-# 2. LIMPAR MKDOCS.YML (NAV)
+# 3. CORRIGIR mkdocs.yml BASEADO NO QUE EXISTE
 # =====================================================
-$mkdocs = @"
-site_name: Wiki EY-BB
-docs_dir: docs
-site_dir: site
+$nav = @(
+  "site_name: Wiki EY-BB",
+  "docs_dir: docs",
+  "site_dir: site",
+  "",
+  "theme:",
+  "  name: material",
+  "",
+  "nav:",
+  "  - Home: index.md",
+  "  - Comunidades: comunidades/index.md"
+)
 
-theme:
-  name: material
-
-nav:
-  - Home: index.md
-  - Comunidades: comunidades/index.md
-  - Onboarding: onboarding/index.md
-  - OF: of/index.md
-  - Ambiente BB: ambiente/index.md
-
-extra_css:
-  - stylesheets/social.css
-"@
-
-Set-Content "mkdocs.yml" $mkdocs -Encoding UTF8
-
-# =====================================================
-# 3. LIMPAR SITE BUILD ANTIGO
-# =====================================================
-if (Test-Path "site") {
-  Write-Host "Limpando site/"
-  Remove-Item "site" -Recurse -Force
+if (Test-Path "docs/onboarding/index.md") {
+  $nav += "  - Onboarding: onboarding/index.md"
 }
 
+if (Test-Path "docs/of/index.md") {
+  $nav += "  - OF: of/index.md"
+}
+
+if (Test-Path "docs/ambiente/index.md") {
+  $nav += "  - Ambiente BB: ambiente/index.md"
+}
+
+$nav += @(
+  "",
+  "extra_css:",
+  "  - stylesheets/social.css"
+)
+
+$nav | Set-Content "mkdocs.yml" -Encoding UTF8
+
 # =====================================================
-# 4. REBUILD LIMPO
+# 4. LIMPAR BUILD ANTIGO E REBUILD
 # =====================================================
-Write-Host "Executando mkdocs build --clean"
+if (Test-Path "site") {
+    Remove-Item "site" -Recurse -Force
+}
+
 mkdocs build --clean
 
-# =====================================================
-# 5. COMMIT
-# =====================================================
-git add .
-git commit -m "fix: remove Cloud & DevOps e corrige estrutura de comunidades"
-
 Write-Host "=== CORRECAO FINALIZADA ==="
-Write-Host "Agora execute: git push"
+Write-Host "Se estiver OK, execute: mkdocs gh-deploy --clean"
