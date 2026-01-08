@@ -41,3 +41,5 @@ extra_css:
   - stylesheets/social.css
 extra_css:
   - stylesheets/social.css
+extra_css:
+  - stylesheets/social.css
